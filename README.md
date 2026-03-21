@@ -2,8 +2,7 @@
 
 `python-appie` is an unofficial async Python client for the Albert Heijn API.
 
-Full documentation lives in [`docs/`](/Users/tijnschouten/repos/personal/appie/docs), is built from [`mkdocs.yml`](/Users/tijnschouten/repos/personal/appie/mkdocs.yml), and is intended to be published at [tijnschouten.github.io/appie](https://tijnschouten.github.io/appie/).
-The docs are intended to be available in both English and Dutch.
+[Full documentation](https://tijnschouten.github.io/appie/) is available in English and Dutch. The source for the docs lives in [`docs/`](/Users/tijnschouten/repos/personal/appie/docs) and is built from [`mkdocs.yml`](/Users/tijnschouten/repos/personal/appie/mkdocs.yml).
 
 Releases are intended to publish to PyPI as `python-appie` from version tags via GitHub Actions.
 
