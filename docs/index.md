@@ -31,6 +31,6 @@ This package talks to an unofficial API. That means:
 - [Project History](history.md)
 - [Development](development.md)
 
-The documentation site is available in English and Dutch.
+Documentation is available in [English](https://tijnschouten.github.io/appie/) and [Dutch](https://tijnschouten.github.io/appie/nl/).
 
 Read next: [Getting Started](getting-started.md) for installation, login, and your first request.

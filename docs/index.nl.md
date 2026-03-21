@@ -31,6 +31,6 @@ Deze package gebruikt een onofficiële API. Dat betekent:
 - [Projectgeschiedenis](history.md)
 - [Ontwikkeling](development.md)
 
-De documentatie is beschikbaar in het Engels en Nederlands.
+De documentatie is beschikbaar in het [Engels](https://tijnschouten.github.io/appie/) en [Nederlands](https://tijnschouten.github.io/appie/nl/).
 
 Lees verder: [Snelstart](getting-started.md) voor installatie, login en je eerste request.
