@@ -8,7 +8,17 @@ theme:
   name: material
   features:
     - navigation.sections
+    - navigation.footer
     - content.code.copy
+
+extra:
+  alternate:
+    - name: English
+      link: /appie/
+      lang: en
+    - name: Nederlands
+      link: /appie/nl/
+      lang: nl
 
 plugins:
   - search

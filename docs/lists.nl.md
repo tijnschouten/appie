@@ -1,5 +1,7 @@
 # Boodschappenlijsten
 
+Taal: [English](https://tijnschouten.github.io/appie/lists/) | **Nederlands**
+
 ## Ondersteunde actie
 
 De momenteel geïmplementeerde boodschappenlijstactie is `add_item()`.
@@ -28,3 +30,5 @@ id='item-1' description='Halfvolle melk' quantity=2 product_id=None
 ## Huidige beperking
 
 `get_list()`, `remove_item()` en `clear()` zijn bewust nog niet geïmplementeerd totdat de live API-vorm bevestigd is.
+
+Lees verder: [Mockclient](mock-client.md) voor offline ontwikkeling en tests in downstream packages.

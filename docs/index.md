@@ -1,5 +1,7 @@
 # python-appie
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/)
+
 `python-appie` is an unofficial async Python client for the Albert Heijn API.
 
 It currently supports:
@@ -30,3 +32,5 @@ This package talks to an unofficial API. That means:
 - [Development](development.md)
 
 The documentation site is available in English and Dutch.
+
+Read next: [Getting Started](getting-started.md) for installation, login, and your first request.

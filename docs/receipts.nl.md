@@ -1,5 +1,7 @@
 # Bonnen
 
+Taal: [English](https://tijnschouten.github.io/appie/receipts/) | **Nederlands**
+
 ## Overzichtslijst
 
 `list_all()` en `list_pos_receipts()` geven bonsamenvattingen terug. In die samenvattingen is `products=[]` bewust leeg.
@@ -53,3 +55,5 @@ Verwacht resultaat:
 ```text
 id='AH1...' datetime=... total=17.78 products=[ReceiptProduct(...), ...]
 ```
+
+Lees verder: [Boodschappenlijsten](lists.md) voor de momenteel geïmplementeerde boodschappenlijstactie.

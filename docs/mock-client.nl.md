@@ -1,5 +1,7 @@
 # Mockclient
 
+Taal: [English](https://tijnschouten.github.io/appie/mock-client/) | **Nederlands**
+
 ## Waarom gebruiken
 
 `MockAHClient` is bedoeld voor lokale ontwikkeling, demo's en tests in downstream packages, zonder live requests naar Albert Heijn te sturen.
@@ -37,3 +39,5 @@ Verwacht resultaat:
 - productzoekopdrachten geven vaste in-memory producten terug
 - bonoverzicht en bondetail werken zonder live AH-calls
 - boodschappenlijstmutaties werken volledig in memory
+
+Lees verder: [CLI](cli.md) voor het interactieve logincommando van de echte client.

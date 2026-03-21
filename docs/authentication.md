@@ -1,5 +1,7 @@
 # Authentication
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/authentication/)
+
 ## Login flow
 
 The package uses a browser-assisted login flow exposed through `appie-login`.
@@ -19,3 +21,5 @@ Access tokens are refreshed automatically when they are close to expiry. Under n
 
 - This is not an official AH integration.
 - AH may change login requirements at any time.
+
+Read next: [Products](products.md) for product search and product detail examples.

@@ -1,5 +1,7 @@
 # Snelstart
 
+Taal: [English](https://tijnschouten.github.io/appie/getting-started/) | **Nederlands**
+
 ## Installeren
 
 ```bash
@@ -58,3 +60,5 @@ Product(id=...)
 Product(id=...)
 Product(id=...)
 ```
+
+Lees verder: [Authenticatie](authentication.md) voor tokenopslag, refreshgedrag en opnieuw inloggen.

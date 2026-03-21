@@ -1,5 +1,7 @@
 # Development
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/development/)
+
 ## Setup
 
 ```bash
@@ -38,3 +40,5 @@ This repository uses pre-commit hooks for:
 - `pyright`
 - `pytest`
 - `mkdocs build`
+
+Read next: [Home](index.md) to jump back to the documentation overview.

@@ -1,5 +1,7 @@
 # CLI
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/cli/)
+
 ## `appie-login`
 
 Authenticate and store tokens locally:
@@ -14,3 +16,5 @@ Expected outcome:
 - a Chrome window opens for login
 - the CLI captures the redirect code automatically
 - it prints a success message after storing tokens
+
+Read next: [Project History](history.md) for the original project brief and how the implementation evolved.

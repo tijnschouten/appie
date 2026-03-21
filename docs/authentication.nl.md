@@ -1,5 +1,7 @@
 # Authenticatie
 
+Taal: [English](https://tijnschouten.github.io/appie/authentication/) | **Nederlands**
+
 ## Loginflow
 
 De package gebruikt een browser-ondersteunde loginflow via `appie-login`.
@@ -19,3 +21,5 @@ Access tokens worden automatisch ververst vlak voor ze verlopen. Normaal gesprok
 
 - Dit is geen officiële AH-integratie.
 - AH kan de loginvereisten op elk moment aanpassen.
+
+Lees verder: [Producten](products.md) voor productzoeken en productdetails.

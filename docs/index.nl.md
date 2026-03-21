@@ -1,5 +1,7 @@
 # python-appie
 
+Taal: [English](https://tijnschouten.github.io/appie/) | **Nederlands**
+
 `python-appie` is een onofficiële async Python-client voor de Albert Heijn API.
 
 Ondersteunde onderdelen:
@@ -30,3 +32,5 @@ Deze package gebruikt een onofficiële API. Dat betekent:
 - [Ontwikkeling](development.md)
 
 De documentatie is beschikbaar in het Engels en Nederlands.
+
+Lees verder: [Snelstart](getting-started.md) voor installatie, login en je eerste request.

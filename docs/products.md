@@ -1,5 +1,7 @@
 # Products
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/products/)
+
 ## Search
 
 ```python
@@ -48,3 +50,5 @@ Expected outcome:
 ```text
 id=1525 title='AH Halfvolle melk' brand='AH' price=1.29 ...
 ```
+
+Read next: [Receipts](receipts.md) for receipt summaries and detailed receipt line items.

@@ -1,5 +1,7 @@
 # Receipts
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/receipts/)
+
 ## Summary listing
 
 `list_all()` and `list_pos_receipts()` return receipt summaries. Those summary objects intentionally have `products=[]`.
@@ -53,3 +55,5 @@ Expected outcome:
 ```text
 id='AH1...' datetime=... total=17.78 products=[ReceiptProduct(...), ...]
 ```
+
+Read next: [Shopping Lists](lists.md) for the currently implemented shopping-list operation.

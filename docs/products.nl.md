@@ -1,5 +1,7 @@
 # Producten
 
+Taal: [English](https://tijnschouten.github.io/appie/products/) | **Nederlands**
+
 ## Zoeken
 
 ```python
@@ -48,3 +50,5 @@ Verwacht resultaat:
 ```text
 id=1525 title='AH Halfvolle melk' brand='AH' price=1.29 ...
 ```
+
+Lees verder: [Bonnen](receipts.md) voor bonoverzichten en gedetailleerde bonregels.

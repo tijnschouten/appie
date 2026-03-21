@@ -1,5 +1,7 @@
 # Getting Started
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/getting-started/)
+
 ## Install
 
 ```bash
@@ -58,3 +60,5 @@ Product(id=...)
 Product(id=...)
 Product(id=...)
 ```
+
+Read next: [Authentication](authentication.md) for token storage, refresh behavior, and re-login expectations.

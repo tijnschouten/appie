@@ -1,5 +1,7 @@
 # Project History
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/history/)
+
 This page preserves the original project brief that kicked off `python-appie`.
 
 It is useful as historical context because the live API evolved during implementation, which meant some of the originally assumed endpoints and payloads had to be corrected while building the package.
@@ -223,3 +225,5 @@ Include:
 - Disclaimer that this is unofficial and may break
 - Reference to `gwillem/appie-go` as source for endpoint discovery
 ```
+
+Read next: [Development](development.md) for the local tooling, quality gates, and contribution workflow.

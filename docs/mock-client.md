@@ -1,5 +1,7 @@
 # Mock Client
 
+Language: **English** | [Nederlands](https://tijnschouten.github.io/appie/nl/mock-client/)
+
 ## Why use it
 
 `MockAHClient` is intended for local development, demos, and downstream package tests where you want the `python-appie` interface without making live requests to Albert Heijn.
@@ -79,3 +81,5 @@ client = MockAHClient(
     ],
 )
 ```
+
+Read next: [CLI](cli.md) for the interactive login command used with the real client.
