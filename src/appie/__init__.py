@@ -6,9 +6,22 @@ import asyncio
 
 from appie.auth import AHAuthClient
 from appie.client import AHClient
-from appie.mock import MockAHClient
+from appie.mock import (
+    AppieMockCall,
+    AppieMockController,
+    AppieMockScenario,
+    MockAHClient,
+)
 
-__all__ = ["AHAuthClient", "AHClient", "MockAHClient", "login_cli"]
+__all__ = [
+    "AHAuthClient",
+    "AHClient",
+    "AppieMockCall",
+    "AppieMockController",
+    "AppieMockScenario",
+    "MockAHClient",
+    "login_cli",
+]
 
 
 def login_cli() -> None:
