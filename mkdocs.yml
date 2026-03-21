@@ -7,9 +7,34 @@ repo_name: python-appie
 theme:
   name: material
   features:
-    - navigation.instant
     - navigation.sections
     - content.code.copy
+
+plugins:
+  - search
+  - i18n:
+      docs_structure: suffix
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: nl
+          name: Nederlands
+          build: true
+          nav_translations:
+            Home: Home
+            Getting Started: Snelstart
+            Authentication: Authenticatie
+            Products: Producten
+            Receipts: Bonnen
+            Shopping Lists: Boodschappenlijsten
+            Mock Client: Mockclient
+            Project History: Projectgeschiedenis
+            CLI: CLI
+            Development: Ontwikkeling
 
 markdown_extensions:
   - admonition

@@ -1,39 +1,39 @@
-# Getting Started
+# Snelstart
 
-## Install
+## Installeren
 
 ```bash
 uv add python-appie
 ```
 
-Or:
+Of:
 
 ```bash
 pip install python-appie
 ```
 
-For local development in this repository:
+Voor lokale ontwikkeling in deze repository:
 
 ```bash
 uv sync --extra dev
 ```
 
-## Login
+## Inloggen
 
-Run:
+Voer uit:
 
 ```bash
 uv run appie-login
 ```
 
-This opens Chrome and captures the AH login redirect code automatically. Tokens are stored in `~/.config/appie/tokens.json`.
+Dit opent Chrome, vangt automatisch de AH-redirectcode af en slaat tokens op in `~/.config/appie/tokens.json`.
 
-Expected outcome:
-- a browser window opens for AH login
-- after a successful login, tokens are stored locally
-- later package usage reuses those tokens automatically
+Verwacht resultaat:
+- er opent een browservenster voor de AH-login
+- na succesvolle login worden tokens lokaal opgeslagen
+- later hergebruikt de package die tokens automatisch
 
-## First request
+## Eerste request
 
 ```python
 import asyncio
@@ -51,7 +51,7 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-Expected outcome:
+Verwacht resultaat:
 
 ```text
 Product(id=...)

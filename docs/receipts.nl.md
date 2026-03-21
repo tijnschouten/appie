@@ -1,8 +1,8 @@
-# Receipts
+# Bonnen
 
-## Summary listing
+## Overzichtslijst
 
-`list_all()` and `list_pos_receipts()` return receipt summaries. Those summary objects intentionally have `products=[]`.
+`list_all()` en `list_pos_receipts()` geven bonsamenvattingen terug. In die samenvattingen is `products=[]` bewust leeg.
 
 ```python
 import asyncio
@@ -20,7 +20,7 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-Expected outcome:
+Verwacht resultaat:
 
 ```text
 AH1... 2026-03-21 14:16:00+00:00 17.78
@@ -28,9 +28,9 @@ AH1... 2026-03-07 10:20:00+00:00 24.82
 ...
 ```
 
-## Detailed receipt
+## Gedetailleerde bon
 
-Use `get_pos_receipt()` to retrieve line items.
+Gebruik `get_pos_receipt()` om de regels van een bon op te halen.
 
 ```python
 import asyncio
@@ -48,7 +48,7 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-Expected outcome:
+Verwacht resultaat:
 
 ```text
 id='AH1...' datetime=... total=17.78 products=[ReceiptProduct(...), ...]

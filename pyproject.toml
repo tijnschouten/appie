@@ -27,6 +27,7 @@ Issues = "https://github.com/tijnschouten/appie/issues"
 dev = [
   "mkdocs>=1.6",
   "mkdocs-material>=9.5",
+  "mkdocs-static-i18n>=1.2",
   "pre-commit>=4.0",
   "pyright>=1.1.390",
   "pytest",

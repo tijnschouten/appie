@@ -33,6 +33,11 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
+Expected outcome:
+- product search returns fixed in-memory products
+- receipt listing and detail work without calling AH
+- shopping-list mutations work entirely in memory
+
 ## Behavior
 
 - `products.search()` searches a fixed in-memory dataset

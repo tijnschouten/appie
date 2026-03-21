@@ -1,6 +1,6 @@
-# Products
+# Producten
 
-## Search
+## Zoeken
 
 ```python
 import asyncio
@@ -18,7 +18,7 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-Expected outcome:
+Verwacht resultaat:
 
 ```text
 AH Halfvolle melk 1.29
@@ -43,7 +43,7 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-Expected outcome:
+Verwacht resultaat:
 
 ```text
 id=1525 title='AH Halfvolle melk' brand='AH' price=1.29 ...

@@ -28,3 +28,5 @@ This package talks to an unofficial API. That means:
 - [Shopping Lists](lists.md)
 - [Project History](history.md)
 - [Development](development.md)
+
+The documentation site is available in English and Dutch.

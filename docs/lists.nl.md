@@ -1,8 +1,8 @@
-# Shopping Lists
+# Boodschappenlijsten
 
-## Supported operation
+## Ondersteunde actie
 
-The currently implemented shopping-list operation is `add_item()`.
+De momenteel geïmplementeerde boodschappenlijstactie is `add_item()`.
 
 ```python
 import asyncio
@@ -19,12 +19,12 @@ async def main() -> None:
 asyncio.run(main())
 ```
 
-Expected outcome:
+Verwacht resultaat:
 
 ```text
 id='item-1' description='Halfvolle melk' quantity=2 product_id=None
 ```
 
-## Current limitation
+## Huidige beperking
 
-`get_list()`, `remove_item()`, and `clear()` are intentionally left unimplemented until their live API shape is confirmed.
+`get_list()`, `remove_item()` en `clear()` zijn bewust nog niet geïmplementeerd totdat de live API-vorm bevestigd is.
