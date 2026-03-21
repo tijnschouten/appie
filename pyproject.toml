@@ -1,0 +1,78 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "python-appie"
+version = "0.1.0"
+description = "Unofficial Python client for the Albert Heijn API."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  { name = "Codex" },
+]
+dependencies = [
+  "httpx",
+  "pydantic>=2",
+  "playwright>=1.52.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/tijnschouten/appie"
+Documentation = "https://tijnschouten.github.io/appie/"
+Repository = "https://github.com/tijnschouten/appie"
+Issues = "https://github.com/tijnschouten/appie/issues"
+
+[project.optional-dependencies]
+dev = [
+  "mkdocs>=1.6",
+  "mkdocs-material>=9.5",
+  "pre-commit>=4.0",
+  "pyright>=1.1.390",
+  "pytest",
+  "pytest-asyncio",
+  "pytest-cov",
+  "respx",
+  "ruff",
+]
+
+[project.scripts]
+appie-login = "appie:login_cli"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/appie"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+addopts = "--cov=appie --cov-report=term-missing --cov-fail-under=90"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "D", "C90"]
+ignore = ["D203", "D213", "D107"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 4
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["D"]
+
+[tool.coverage.run]
+branch = true
+source = ["appie"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+
+[tool.pyright]
+include = ["src", "tests"]
+pythonVersion = "3.11"
+typeCheckingMode = "basic"
+reportMissingTypeStubs = false

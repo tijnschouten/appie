@@ -1,0 +1,29 @@
+site_name: python-appie
+site_description: Unofficial async Python client for the Albert Heijn API
+site_url: https://tijnschouten.github.io/appie/
+repo_url: https://github.com/tijnschouten/appie
+repo_name: python-appie
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.sections
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Authentication: authentication.md
+  - Products: products.md
+  - Receipts: receipts.md
+  - Shopping Lists: lists.md
+  - Mock Client: mock-client.md
+  - CLI: cli.md
+  - Development: development.md
