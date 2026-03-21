@@ -245,15 +245,166 @@ async def test_add_shopping_list_item_mapping(ah_client):
 
 
 @pytest.mark.asyncio
-async def test_lists_unimplemented_methods_raise(ah_client):
-    with pytest.raises(NotImplementedError):
-        await ah_client.lists.get_list()
+@respx.mock
+async def test_get_list_mapping(ah_client):
+    respx.get(f"{BASE_URL}/mobile-services/shoppinglist/v2/items").mock(
+        return_value=Response(
+            200,
+            json={
+                "id": "list-1",
+                "items": [
+                    {
+                        "listItemId": 11,
+                        "quantity": 2,
+                        "description": "Stroopwafel",
+                        "vagueTermDetails": {"searchTermValue": "Stroopwafel"},
+                    },
+                    {
+                        "listItemId": 12,
+                        "quantity": 1,
+                        "productDetails": {
+                            "product": {
+                                "webshopId": 123,
+                                "title": "Halfvolle melk",
+                            }
+                        },
+                    },
+                ],
+            },
+        )
+    )
 
-    with pytest.raises(NotImplementedError):
-        await ah_client.lists.remove_item("item-1")
+    items = await ah_client.lists.get_list()
 
-    with pytest.raises(NotImplementedError):
-        await ah_client.lists.clear()
+    assert items[0].description == "Stroopwafel"
+    assert items[0].quantity == 2
+    assert items[0].product_id is None
+    assert items[0].id == "txt:Stroopwafel"
+    assert items[1].description == "Halfvolle melk"
+    assert items[1].product_id == 123
+    assert items[1].id == "prd:123:Halfvolle%20melk"
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_get_list_returns_empty_for_missing_default_list(ah_client):
+    respx.get(f"{BASE_URL}/mobile-services/shoppinglist/v2/items").mock(
+        return_value=Response(200, json={"id": "list-1", "items": []})
+    )
+
+    items = await ah_client.lists.get_list()
+
+    assert items == []
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_remove_text_item_uses_confirmed_patch_shape(ah_client):
+    route = respx.patch(f"{BASE_URL}/mobile-services/shoppinglist/v2/items").mock(
+        return_value=Response(200, json={})
+    )
+
+    await ah_client.lists.remove_item("txt:Stroopwafel")
+
+    payload = json.loads(route.calls[0].request.content)
+    assert payload == {
+        "items": [
+            {
+                "description": "Stroopwafel",
+                "quantity": 0,
+                "type": "SHOPPABLE",
+                "originCode": "TXT",
+            }
+        ]
+    }
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_clear_removes_all_items_from_current_list(ah_client):
+    get_route = respx.get(f"{BASE_URL}/mobile-services/shoppinglist/v2/items")
+    get_route.mock(
+        side_effect=[
+            Response(
+                200,
+                json={
+                    "id": "list-1",
+                    "items": [
+                        {
+                            "listItemId": 11,
+                            "quantity": 1,
+                            "description": "Stroopwafel",
+                        },
+                        {
+                            "listItemId": 12,
+                            "quantity": 1,
+                            "productDetails": {
+                                "product": {
+                                    "webshopId": 123,
+                                    "title": "Halfvolle melk",
+                                }
+                            },
+                        },
+                    ],
+                },
+            )
+        ]
+    )
+    patch_route = respx.patch(f"{BASE_URL}/mobile-services/shoppinglist/v2/items").mock(
+        return_value=Response(200, json={})
+    )
+
+    await ah_client.lists.clear()
+
+    payloads = [json.loads(call.request.content) for call in patch_route.calls]
+    assert payloads == [
+        {
+            "items": [
+                {
+                    "description": "Stroopwafel",
+                    "quantity": 0,
+                    "type": "SHOPPABLE",
+                    "originCode": "TXT",
+                }
+            ]
+        },
+        {
+            "items": [
+                {
+                    "productId": 123,
+                    "quantity": 0,
+                    "type": "SHOPPABLE",
+                    "originCode": "PRD",
+                    "description": "Halfvolle melk",
+                    "searchTerm": "Halfvolle melk",
+                }
+            ]
+        },
+    ]
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_remove_product_item_uses_confirmed_patch_shape(ah_client):
+    route = respx.patch(f"{BASE_URL}/mobile-services/shoppinglist/v2/items").mock(
+        return_value=Response(200, json={})
+    )
+
+    await ah_client.lists.remove_item("prd:104395:AH%20Zaanlander%20Belegen%2048%2B%20plakken")
+
+    payload = json.loads(route.calls[0].request.content)
+    assert payload == {
+        "items": [
+            {
+                "productId": 104395,
+                "quantity": 0,
+                "type": "SHOPPABLE",
+                "originCode": "PRD",
+                "description": "AH Zaanlander Belegen 48+ plakken",
+                "searchTerm": "AH Zaanlander Belegen 48+ plakken",
+            }
+        ]
+    }
 
 
 @pytest.mark.asyncio

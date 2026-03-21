@@ -116,6 +116,9 @@ asyncio.run(main())
 ### Shopping lists
 
 - add an item via `client.lists.add_item(description, quantity=1, product_id=None)`
+- read the current shopping list via `client.lists.get_list()`
+- remove one item via `client.lists.remove_item(item_id)`
+- clear the entire list via `client.lists.clear()`
 - use `MockAHClient` for local development and tests without touching AH
 
 Example:
@@ -128,15 +131,16 @@ from appie import AHClient
 
 async def main() -> None:
     async with AHClient() as client:
-        item = await client.lists.add_item("Halfvolle melk", quantity=2)
-        print(item)
+        await client.lists.add_item("Halfvolle melk", quantity=2)
+        items = await client.lists.get_list()
+        print(items)
 
 
 asyncio.run(main())
 ```
 
-Current limitation:
-shopping-list add is implemented, but `get_list()`, `remove_item()`, and `clear()` still raise `NotImplementedError` until their live API shape is confirmed.
+Note:
+the `ShoppingListItem.id` returned by `get_list()` is an opaque removal key designed for `remove_item(item_id)`. It should be treated as an implementation detail rather than a stable AH server identifier.
 
 ## API overview
 
@@ -181,6 +185,6 @@ uv run --extra dev mkdocs build --strict
 
 - This client is unofficial and may break when Albert Heijn changes its backend.
 - Receipt support currently covers in-store POS receipts.
-- Shopping-list support only implements the verified add-item mutation; other operations raise explicit `NotImplementedError` until their GraphQL shape is confirmed.
+- Shopping-list read, add, remove, and clear are implemented against the live main-list endpoint.
 - Receipt summaries do not include line items; call `get_pos_receipt()` for a detailed receipt.
 - Endpoint discovery for this package is inspired by [gwillem/appie-go](https://github.com/gwillem/appie-go).
