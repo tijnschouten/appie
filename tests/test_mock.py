@@ -1,17 +1,31 @@
 from __future__ import annotations
 
+import asyncio
+
 import pytest
 
 from appie import MockAHClient
+from appie.mock import AppieMockCall
+from appie.pytest_plugin import (
+    build_appie_mock,
+    build_appie_mock_controller,
+    build_appie_mock_factory,
+)
 
 
 @pytest.mark.asyncio
-async def test_mock_client_product_search():
+async def test_mock_client_product_search_captures_calls():
     async with MockAHClient() as client:
         products = await client.products.search("melk")
 
     assert products
     assert all("melk" in product.title.lower() for product in products)
+    assert client.mock.last_call == AppieMockCall(
+        operation="products.search",
+        params={"query": "melk", "limit": 10},
+        result=products,
+        error=None,
+    )
 
 
 @pytest.mark.asyncio
@@ -52,3 +66,65 @@ async def test_mock_client_clear_and_lookup_errors():
         await client.aclose()
 
     assert await client.lists.get_list() == []
+
+
+@pytest.mark.asyncio
+async def test_mock_client_next_response_is_consumed_once():
+    async with MockAHClient() as client:
+        client.mock.next_response("products.search", [])
+        first = await client.products.search("melk")
+        second = await client.products.search("melk")
+
+    assert first == []
+    assert second
+    assert len(client.mock.calls) == 2
+
+
+@pytest.mark.asyncio
+async def test_mock_client_next_error_records_failure():
+    async with MockAHClient() as client:
+        client.mock.next_error("receipts.list_all", RuntimeError("rate limited"))
+
+        with pytest.raises(RuntimeError, match="rate limited"):
+            await client.receipts.list_all()
+
+    assert client.mock.last_call is not None
+    assert client.mock.last_call.error == "RuntimeError: rate limited"
+
+
+@pytest.mark.asyncio
+async def test_mock_client_scenario_delay(monkeypatch):
+    slept: list[float] = []
+
+    async def fake_sleep(seconds: float) -> None:
+        slept.append(seconds)
+
+    monkeypatch.setattr(asyncio, "sleep", fake_sleep)
+
+    async with MockAHClient() as client:
+        client.mock.set_scenario("lists.get_list", delay_ms=250)
+        await client.lists.get_list()
+
+    assert slept == [0.25]
+
+
+@pytest.mark.asyncio
+async def test_mock_client_global_scenario_error():
+    async with MockAHClient() as client:
+        client.mock.set_scenario("*", error=RuntimeError("mock outage"))
+
+        with pytest.raises(RuntimeError, match="mock outage"):
+            await client.products.search("melk")
+
+    assert client.mock.last_call is not None
+    assert client.mock.last_call.operation == "products.search"
+
+
+def test_pytest_plugin_fixtures_expose_mock_client():
+    client = build_appie_mock()
+    controller = build_appie_mock_controller(client)
+    factory = build_appie_mock_factory()
+
+    assert isinstance(client, MockAHClient)
+    assert controller is client.mock
+    assert factory is MockAHClient

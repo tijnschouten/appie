@@ -142,12 +142,71 @@ asyncio.run(main())
 Note:
 the `ShoppingListItem.id` returned by `get_list()` is an opaque removal key designed for `remove_item(item_id)`. It should be treated as an implementation detail rather than a stable AH server identifier.
 
+### Mocking and downstream tests
+
+- `MockAHClient()` provides an in-memory drop-in client for local development
+- `client.mock.calls` and `client.mock.last_call` capture what your code did
+- `client.mock.next_response(operation, value)` seeds a one-shot result
+- `client.mock.next_error(operation, exc)` seeds a one-shot failure
+- `client.mock.set_scenario(operation, delay_ms=..., error=...)` applies persistent delay/error behavior
+- `appie.pytest_plugin` provides pytest fixtures for downstream packages
+
+Example:
+
+```python
+import asyncio
+
+from appie import MockAHClient
+
+
+async def main() -> None:
+    async with MockAHClient() as client:
+        client.mock.next_response("products.search", [])
+        products = await client.products.search("melk")
+        print(products)
+        print(client.mock.last_call)
+
+
+asyncio.run(main())
+```
+
+Expected outcome:
+
+```text
+[]
+AppieMockCall(operation='products.search', params={'query': 'melk', 'limit': 10}, result=[], error=None)
+```
+
+Pytest plugin example:
+
+```python
+# tests/conftest.py
+pytest_plugins = ["appie.pytest_plugin"]
+```
+
+```python
+import pytest
+
+
+@pytest.mark.asyncio
+async def test_checkout_uses_expected_query(appie_mock):
+    await appie_mock.products.search("melk", limit=3)
+
+    assert appie_mock.mock.last_call is not None
+    assert appie_mock.mock.last_call.params == {"query": "melk", "limit": 3}
+```
+
+Expected outcome:
+- the test runs without touching AH
+- the recorded call proves what your code sent into `python-appie`
+
 ## API overview
 
 ### Main client
 
 - `AHClient()`
 - `MockAHClient()`
+- `MockAHClient().mock`
 - `await client.login()`
 - `await client.graphql(query, variables=None)`
 
@@ -168,6 +227,17 @@ the `ShoppingListItem.id` returned by `get_list()` is an opaque removal key desi
 - `client.lists.get_list()`
 - `client.lists.remove_item(item_id)`
 - `client.lists.clear()`
+
+### Mock helpers
+
+- `client.mock.calls`
+- `client.mock.last_call`
+- `client.mock.clear_calls()`
+- `client.mock.next_response(operation, value)`
+- `client.mock.next_error(operation, exc)`
+- `client.mock.clear_seeded_responses()`
+- `client.mock.set_scenario(operation, delay_ms=0, error=None)`
+- `client.mock.clear_scenarios()`
 
 ## Development
 
