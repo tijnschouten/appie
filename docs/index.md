@@ -26,4 +26,5 @@ This package talks to an unofficial API. That means:
 - [Products](products.md)
 - [Receipts](receipts.md)
 - [Shopping Lists](lists.md)
+- [Project History](history.md)
 - [Development](development.md)

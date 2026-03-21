@@ -25,5 +25,6 @@ nav:
   - Receipts: receipts.md
   - Shopping Lists: lists.md
   - Mock Client: mock-client.md
+  - Project History: history.md
   - CLI: cli.md
   - Development: development.md
