@@ -20,6 +20,9 @@ async def test_mock_client_product_search_captures_calls():
 
     assert products
     assert all("melk" in product.title.lower() for product in products)
+    assert products[0].is_bonus is True
+    assert products[0].is_organic is True
+    assert products[0].bonus_label == "2e halve prijs"
     assert client.mock.last_call == AppieMockCall(
         operation="products.search",
         params={"query": "melk", "limit": 10},

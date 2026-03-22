@@ -7,7 +7,7 @@ from collections import defaultdict
 from collections.abc import Awaitable, Callable
 from copy import deepcopy
 from dataclasses import dataclass, field
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from typing import Any, TypeVar
 
 from appie.models import Product, Receipt, ReceiptProduct, ShoppingListItem
@@ -23,6 +23,13 @@ def _default_products() -> list[Product]:
             title="AH Halfvolle melk",
             brand="AH",
             price=1.29,
+            original_price=1.49,
+            is_bonus=True,
+            bonus_label="2e halve prijs",
+            bonus_start_date=date(2026, 3, 16),
+            bonus_end_date=date(2026, 3, 22),
+            is_organic=True,
+            property_labels=["np_biologisch"],
             unit_size="1 l",
             image_url="https://example.test/ah-halfvolle-melk.jpg",
         ),
@@ -31,6 +38,11 @@ def _default_products() -> list[Product]:
             title="Campina Halfvolle melk voordeelverpakking",
             brand="Campina",
             price=1.99,
+            original_price=None,
+            is_bonus=False,
+            bonus_label=None,
+            is_organic=None,
+            property_labels=[],
             unit_size="1,5 l",
             image_url="https://example.test/campina-halfvolle-melk.jpg",
         ),
@@ -39,6 +51,13 @@ def _default_products() -> list[Product]:
             title="AH Pindakaas",
             brand="AH",
             price=2.49,
+            original_price=2.99,
+            is_bonus=True,
+            bonus_label="25% korting",
+            bonus_start_date=date(2026, 3, 16),
+            bonus_end_date=date(2026, 3, 22),
+            is_organic=None,
+            property_labels=["vegan"],
             unit_size="600 g",
             image_url="https://example.test/ah-pindakaas.jpg",
         ),

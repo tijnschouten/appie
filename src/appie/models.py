@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import date, datetime
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class TokenResponse(BaseModel):
@@ -49,6 +49,13 @@ class Product(BaseModel):
     title: str
     brand: str | None = None
     price: float | None = None
+    original_price: float | None = None
+    is_bonus: bool | None = None
+    bonus_label: str | None = None
+    bonus_start_date: date | None = None
+    bonus_end_date: date | None = None
+    is_organic: bool | None = None
+    property_labels: list[str] = Field(default_factory=list)
     unit_size: str | None = None
     image_url: str | None = None
 
