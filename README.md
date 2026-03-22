@@ -3,6 +3,7 @@
 `python-appie` is an unofficial async Python client for the Albert Heijn API.
 
 [Full documentation](https://tijnschouten.github.io/appie/) is available in English and Dutch. The source for the docs lives in [`docs/`](/Users/tijnschouten/repos/personal/appie/docs) and is built from [`mkdocs.yml`](/Users/tijnschouten/repos/personal/appie/mkdocs.yml).
+[Changelog](/Users/tijnschouten/repos/personal/appie/CHANGELOG.md) tracks release history.
 
 Releases are intended to publish to PyPI as `python-appie` from version tags via GitHub Actions.
 
@@ -68,6 +69,7 @@ Tokens are stored in `~/.config/appie/tokens.json` and refreshed automatically w
 
 - search products via `client.products.search(query, limit=10)`
 - fetch a single product via `client.products.get(product_id)`
+- product results include current price, original price, bonus metadata, and biologisch-related markers when available
 
 Example:
 
@@ -80,10 +82,23 @@ from appie import AHClient
 async def main() -> None:
     async with AHClient() as client:
         product = await client.products.get(1525)
-        print(product)
+        print(
+            product.title,
+            product.price,
+            product.original_price,
+            product.is_bonus,
+            product.bonus_label,
+            product.is_organic,
+        )
 
 
 asyncio.run(main())
+```
+
+Expected outcome:
+
+```text
+AH Halfvolle melk 1.29 1.49 True 2e halve prijs True
 ```
 
 ### Receipts

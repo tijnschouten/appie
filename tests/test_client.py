@@ -159,7 +159,13 @@ async def test_product_search_mapping(ah_client):
                         "title": "Halfvolle melk",
                         "brand": "AH",
                         "currentPrice": 1.99,
+                        "priceBeforeBonus": 2.49,
+                        "isBonus": True,
+                        "bonusMechanism": "2e halve prijs",
+                        "bonusStartDate": "2026-03-16",
+                        "bonusEndDate": "2026-03-22",
                         "salesUnitSize": "1 l",
+                        "propertyIcons": ["np_biologisch"],
                         "images": [{"url": "https://example.test/melk.jpg"}],
                     }
                 ]
@@ -172,6 +178,13 @@ async def test_product_search_mapping(ah_client):
     assert len(products) == 1
     assert products[0].title == "Halfvolle melk"
     assert products[0].price == 1.99
+    assert products[0].original_price == 2.49
+    assert products[0].is_bonus is True
+    assert products[0].bonus_label == "2e halve prijs"
+    assert products[0].bonus_start_date is not None
+    assert products[0].bonus_end_date is not None
+    assert products[0].is_organic is True
+    assert products[0].property_labels == ["np_biologisch"]
 
 
 @pytest.mark.asyncio
@@ -187,7 +200,9 @@ async def test_product_detail_mapping(ah_client):
                     "title": "Halfvolle melk",
                     "brand": "AH",
                     "currentPrice": 1.99,
+                    "isBonusPrice": False,
                     "salesUnitSize": "1 l",
+                    "properties": [{"label": "Biologisch"}],
                     "images": [{"url": "https://example.test/melk.jpg"}],
                 },
             },
@@ -198,6 +213,10 @@ async def test_product_detail_mapping(ah_client):
 
     assert product.id == 123
     assert product.title == "Halfvolle melk"
+    assert product.is_bonus is False
+    assert product.is_organic is True
+    assert product.original_price is None
+    assert product.property_labels == ["Biologisch"]
 
 
 def test_product_mapping_requires_identifier(ah_client):
@@ -216,6 +235,36 @@ def test_product_mapping_prefers_first_image_dict(ah_client):
     )
 
     assert product.image_url == "https://example.test/image.jpg"
+
+
+def test_product_mapping_uses_discount_description_when_bonus_mechanism_missing(ah_client):
+    product = ah_client.products._map_product(
+        {
+            "webshopId": 123,
+            "title": "Halfvolle melk",
+            "currentPrice": 1.99,
+            "extraDescriptions": ["Alleen online", "10% korting op deze Keuze Deal."],
+            "labels": [{"id": "np_biologisch"}],
+        }
+    )
+
+    assert product.bonus_label == "10% korting op deze Keuze Deal."
+    assert product.is_bonus is None
+    assert product.is_organic is True
+    assert product.property_labels == ["np_biologisch"]
+
+
+def test_product_mapping_hides_original_price_when_not_discounted(ah_client):
+    product = ah_client.products._map_product(
+        {
+            "webshopId": 123,
+            "title": "Halfvolle melk",
+            "currentPrice": 1.99,
+            "priceBeforeBonus": 1.99,
+        }
+    )
+
+    assert product.original_price is None
 
 
 @pytest.mark.asyncio
