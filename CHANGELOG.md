@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+- switch shopping-list `add_item()` from the removed GraphQL mutation to the live REST endpoint
+- align shopping-list add behavior with the confirmed `PATCH /mobile-services/shoppinglist/v2/items` API
+- add coverage for both free-text and product-backed shopping-list adds
+
 ## 0.2.1
 
 - add richer product metadata for grocery-planning use cases

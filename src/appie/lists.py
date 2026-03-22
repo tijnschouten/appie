@@ -7,17 +7,6 @@ from urllib.parse import quote, unquote
 
 from appie.models import ShoppingListItem
 
-ADD_ITEM_MUTATION = """
-mutation AddToShoppingList($input: ShoppingListItemInput!) {
-  addShoppingListItem(input: $input) {
-    id
-    description
-    quantity
-    productId
-  }
-}
-"""
-
 GET_LIST_PATH = "/mobile-services/shoppinglist/v2/items"
 
 
@@ -53,17 +42,13 @@ class ListsAPI:
         product_id: int | None = None,
     ) -> ShoppingListItem:
         """Add an item to the shopping list."""
-        data = await self._client.graphql(
-            ADD_ITEM_MUTATION,
-            {
-                "input": {
-                    "description": description,
-                    "quantity": quantity,
-                    "productId": product_id,
-                }
-            },
-        )
-        return self._map_item(data["addShoppingListItem"])
+        payload = {"items": [self._add_payload(description, quantity, product_id)]}
+        response = await self._client.request("PATCH", GET_LIST_PATH, json=payload)
+        response_payload = response.json()
+        items = response_payload.get("items") or []
+        if not items:
+            raise RuntimeError("Shopping-list add response did not include any items.")
+        return self._map_list_item(items[0])
 
     async def remove_item(self, item_id: str) -> None:
         """Remove an item from the shopping list."""
@@ -93,20 +78,29 @@ class ListsAPI:
         )
 
     @staticmethod
-    def _map_item(payload: dict) -> ShoppingListItem:
-        return ShoppingListItem(
-            id=str(payload["id"]),
-            description=payload["description"],
-            quantity=int(payload.get("quantity", 1)),
-            product_id=payload.get("productId"),
-        )
-
-    @staticmethod
     def _build_item_id(description: str, product_id: Any) -> str:
         encoded_description = quote(description, safe="")
         if product_id is not None:
             return f"prd:{int(product_id)}:{encoded_description}"
         return f"txt:{encoded_description}"
+
+    @staticmethod
+    def _add_payload(description: str, quantity: int, product_id: int | None) -> dict[str, Any]:
+        if product_id is not None:
+            return {
+                "productId": int(product_id),
+                "quantity": quantity,
+                "type": "SHOPPABLE",
+                "originCode": "PRD",
+                "description": description,
+                "searchTerm": description,
+            }
+        return {
+            "description": description,
+            "quantity": quantity,
+            "type": "SHOPPABLE",
+            "originCode": "TXT",
+        }
 
     @staticmethod
     def _remove_payload_from_item_id(item_id: str) -> dict[str, Any]:

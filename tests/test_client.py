@@ -270,25 +270,85 @@ def test_product_mapping_hides_original_price_when_not_discounted(ah_client):
 @pytest.mark.asyncio
 @respx.mock
 async def test_add_shopping_list_item_mapping(ah_client):
-    respx.post(f"{BASE_URL}/graphql").mock(
+    route = respx.patch(f"{BASE_URL}/mobile-services/shoppinglist/v2/items").mock(
         return_value=Response(
             200,
             json={
-                "data": {
-                    "addShoppingListItem": {
-                        "id": "item-1",
+                "id": "list-1",
+                "items": [
+                    {
+                        "listItemId": 0,
                         "description": "Halfvolle melk",
                         "quantity": 2,
-                        "productId": 123,
+                        "type": "SHOPPABLE",
+                        "originCode": "TXT",
+                        "vagueTermDetails": {"searchTermValue": "Halfvolle melk"},
                     }
-                }
+                ],
+            },
+        )
+    )
+
+    item = await ah_client.lists.add_item("Halfvolle melk", quantity=2)
+
+    assert json.loads(route.calls[0].request.content) == {
+        "items": [
+            {
+                "description": "Halfvolle melk",
+                "quantity": 2,
+                "type": "SHOPPABLE",
+                "originCode": "TXT",
+            }
+        ]
+    }
+    assert item.id == "txt:Halfvolle%20melk"
+    assert item.description == "Halfvolle melk"
+    assert item.quantity == 2
+    assert item.product_id is None
+
+
+@pytest.mark.asyncio
+@respx.mock
+async def test_add_product_shopping_list_item_uses_rest_patch_shape(ah_client):
+    route = respx.patch(f"{BASE_URL}/mobile-services/shoppinglist/v2/items").mock(
+        return_value=Response(
+            200,
+            json={
+                "id": "list-1",
+                "items": [
+                    {
+                        "listItemId": 0,
+                        "quantity": 2,
+                        "type": "SHOPPABLE",
+                        "originCode": "PRD",
+                        "productDetails": {
+                            "product": {
+                                "webshopId": 123,
+                                "title": "Halfvolle melk",
+                            }
+                        },
+                    }
+                ],
             },
         )
     )
 
     item = await ah_client.lists.add_item("Halfvolle melk", quantity=2, product_id=123)
 
-    assert item.id == "item-1"
+    assert json.loads(route.calls[0].request.content) == {
+        "items": [
+            {
+                "productId": 123,
+                "quantity": 2,
+                "type": "SHOPPABLE",
+                "originCode": "PRD",
+                "description": "Halfvolle melk",
+                "searchTerm": "Halfvolle melk",
+            }
+        ]
+    }
+    assert item.id == "prd:123:Halfvolle%20melk"
+    assert item.description == "Halfvolle melk"
     assert item.quantity == 2
     assert item.product_id == 123
 
