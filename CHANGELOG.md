@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 0.2.1
 
 - add richer product metadata for grocery-planning use cases
 - expose `original_price`, `is_bonus`, `bonus_label`, `bonus_start_date`, `bonus_end_date`, `is_organic`, and `property_labels`
